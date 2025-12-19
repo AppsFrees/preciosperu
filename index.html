@@ -3,37 +3,60 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PreciosPerú 🇵🇪 | Compara y ahorra</title>
+  <title>DropPerú 🇵🇪 | Proveedores para Dropshipping Local</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛒</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📦</text></svg>">
 </head>
 <body>
   <header>
     <div class="container">
-      <h1>🇵🇪 PreciosPerú</h1>
-      <p>Encuentra el <strong>precio más bajo</strong> en tiendas online de Perú</p>
+      <h1>🇵🇪 DropPerú</h1>
+      <p>Directorio verificado de proveedores <strong>peruanos</strong> para dropshipping local</p>
+      <div class="badges">
+        <span>✅ Envíos a todo el Perú</span>
+        <span>🧾 White label disponible</span>
+        <span>📈 Margen 40%+</span>
+      </div>
     </div>
   </header>
 
   <main class="container">
-    <div class="search-box">
-      <input type="text" id="buscador" placeholder="Ej: Arroz Costeño 5kg, Cepillo Oral-B..." autocomplete="off" />
-      <button id="btn-buscar">🔍 Buscar</button>
-    </div>
+    <section class="filtros">
+      <input type="text" id="buscador" placeholder="Ej: ropa, odontología, electrónica..." />
+      
+      <div class="grupo-filtros">
+        <label><input type="checkbox" id="filtro-nacional" checked> 🇵🇪 Cobertura nacional</label>
+        <label><input type="checkbox" id="filtro-white" checked> 📦 White label</label>
+        <label><input type="checkbox" id="filtro-api"> 🔄 API/Excel</label>
+      </div>
+    </section>
 
     <div id="resultados">
-      <p class="mensaje-inicial">Ingresa un producto para comparar precios ✨</p>
+      <p class="mensaje-inicial">Cargando proveedores verificados…</p>
     </div>
 
     <div class="nota">
-      <small>✅ Datos actualizados diariamente • ⏱️ Última actualización: <span id="fecha-actualizacion">--/--/----</span></small>
+      <small>🔍 Datos verificados manualmente • Última actualización: <span id="fecha-upd">--/--/----</span></small><br>
+      <small>💡 ¿Conoces un proveedor? <a href="#contacto">¡Ayúdanos a crecer!</a></small>
     </div>
+
+    <section id="contacto" class="colab">
+      <h3>¿Eres proveedor o conoces uno?</h3>
+      <p>Ayúdanos a ampliar el directorio con información real y útil.</p>
+      <a href="mailto:contacto@dropperu.pe?subject=Proveedor para DropPerú&body=Nombre:%20%0ARubro:%20%0AWeb:%20%0A¿Hace envíos a todo Perú?:%20%0A¿Tiene white label?:%20%0AContacto:" class="btn">📩 Enviar sugerencia</a>
+    </section>
+
+    <section class="venta">
+      <h3>🚀 ¿Quieres vender esta app?</h3>
+      <p>DropPerú es 100% editable. Incluye: código fuente + lista actualizable + guía de monetización.</p>
+      <a href="#" class="btn-pro">📦 Comprar como infoproducto (S/ 69)</a>
+    </section>
   </main>
 
   <footer>
     <div class="container">
-      <p>💡 ¿Viste un precio más bajo? <a href="mailto:tudominio@preciosperu.pe?subject=Actualización de precio&body=Tienda:%20%0APrecio:%20%0AEnlace:%20%0AProducto:%20">¡Ayúdanos a mejorarlo!</a></p>
+      <p>DropPerú no es afiliado a los proveedores listados. Verificación hecha por emprendedores peruanos.</p>
     </div>
   </footer>
 
