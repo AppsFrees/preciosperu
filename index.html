@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PreciosPerú 🇵🇪 | Compara y ahorra</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛒</text></svg>">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>🇵🇪 PreciosPerú</h1>
+      <p>Encuentra el <strong>precio más bajo</strong> en tiendas online de Perú</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="search-box">
+      <input type="text" id="buscador" placeholder="Ej: Arroz Costeño 5kg, Cepillo Oral-B..." autocomplete="off" />
+      <button id="btn-buscar">🔍 Buscar</button>
+    </div>
+
+    <div id="resultados">
+      <p class="mensaje-inicial">Ingresa un producto para comparar precios ✨</p>
+    </div>
+
+    <div class="nota">
+      <small>✅ Datos actualizados diariamente • ⏱️ Última actualización: <span id="fecha-actualizacion">--/--/----</span></small>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>💡 ¿Viste un precio más bajo? <a href="mailto:tudominio@preciosperu.pe?subject=Actualización de precio&body=Tienda:%20%0APrecio:%20%0AEnlace:%20%0AProducto:%20">¡Ayúdanos a mejorarlo!</a></p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
