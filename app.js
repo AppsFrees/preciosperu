@@ -1,79 +1,95 @@
-// Cargar datos y escuchar eventos
 document.addEventListener('DOMContentLoaded', () => {
   const buscador = document.getElementById('buscador');
-  const btnBuscar = document.getElementById('btn-buscar');
+  const chkNacional = document.getElementById('filtro-nacional');
+  const chkWhite = document.getElementById('filtro-white');
+  const chkAPI = document.getElementById('filtro-api');
   const resultadosDiv = document.getElementById('resultados');
-  const fechaSpan = document.getElementById('fecha-actualizacion');
+  const fechaSpan = document.getElementById('fecha-upd');
 
-  // Cargar datos desde productos.json
-  fetch('productos.json')
-    .then(response => response.json())
-    .then(data => {
-      // Mostrar última fecha de actualización (del primer producto)
-      if (data.length > 0) {
-        const ultimaFecha = new Date(data[0].fecha).toLocaleDateString('es-PE');
-        fechaSpan.textContent = ultimaFecha;
-      }
+  // Cargar proveedores
+  fetch('proveedores.json')
+    .then(res => res.json())
+    .then(proveedores => {
+      // Mostrar última fecha de verificación (del más reciente)
+      const fechas = proveedores.map(p => new Date(p.fecha_verif));
+      const ultima = new Date(Math.max(...fechas));
+      fechaSpan.textContent = ultima.toLocaleDateString('es-PE');
 
-      // Buscar al hacer clic
-      btnBuscar.addEventListener('click', () => buscarProducto(data));
-      
-      // También permitir Enter
-      buscador.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') buscarProducto(data);
-      });
-    })
-    .catch(err => {
-      resultadosDiv.innerHTML = `<p class="mensaje-inicial" style="color:#d32f2f">❌ Error al cargar los datos. ¿Subiste 'productos.json'?</p>`;
-      console.error('Error:', err);
+      // Render inicial
+      render(proveedores);
+
+      // Eventos
+      buscador.addEventListener('input', () => render(proveedores));
+      chkNacional.addEventListener('change', () => render(proveedores));
+      chkWhite.addEventListener('change', () => render(proveedores));
+      chkAPI.addEventListener('change', () => render(proveedores));
     });
 
-  function buscarProducto(data) {
+  function render(data) {
     const termino = buscador.value.trim().toLowerCase();
-    
-    if (!termino) {
-      resultadosDiv.innerHTML = `<p class="mensaje-inicial">Escribe un producto para buscar 🛒</p>`;
+    let filtrados = data;
+
+    // Búsqueda
+    if (termino) {
+      filtrados = filtrados.filter(p => 
+        p.nombre.toLowerCase().includes(termino) ||
+        p.rubro.toLowerCase().includes(termino) ||
+        p.descripcion.toLowerCase().includes(termino)
+      );
+    }
+
+    // Filtros
+    if (chkNacional.checked) {
+      filtrados = filtrados.filter(p => p.cobertura === 'Nacional');
+    }
+    if (chkWhite.checked) {
+      filtrados = filtrados.filter(p => p.white_label === true);
+    }
+    if (chkAPI.checked) {
+      filtrados = filtrados.filter(p => p.api === true || p.excel_actualizable === true);
+    }
+
+    // Ordenar: verificados primero, luego por margen
+    filtrados.sort((a, b) => {
+      if (a.verificado !== b.verificado) return b.verificado - a.verificado;
+      return (b.margen_estimado.split('–')[0] || 0) - (a.margen_estimado.split('–')[0] || 0);
+    });
+
+    // Render HTML
+    if (filtrados.length === 0) {
+      resultadosDiv.innerHTML = `<p class="mensaje-inicial">🔎 No hay proveedores que coincidan con los filtros. Prueba con otro término.</p>`;
       return;
     }
 
-    // Filtrar productos (coincidencia parcial, insensible a mayúsculas/acentos)
-    const resultados = data.filter(item => 
-      normalize(item.producto).includes(normalize(termino))
-    );
-
-    if (resultados.length === 0) {
-      resultadosDiv.innerHTML = `<p class="mensaje-inicial">🔎 No se encontraron resultados para "<strong>${termino}</strong>". Prueba con otro término.</p>`;
-      return;
-    }
-
-    // Ordenar por precio ascendente
-    resultados.sort((a, b) => a.precio - b.precio);
-
-    // Generar HTML
-    let html = `<h2>✅ Encontramos ${resultados.length} opción(es)</h2>`;
+    let html = `<h2>✅ ${filtrados.length} proveedor(es) encontrados</h2>`;
     
-    resultados.forEach(item => {
-      const fecha = new Date(item.fecha).toLocaleDateString('es-PE');
+    filtrados.forEach(p => {
+      const badgeVerif = p.verificado ? `<span class="rubro">✔️ Verificado</span>` : '';
+      const badgeWL = p.white_label ? '✅' : '❌';
+      const badgeAPI = p.api || p.excel_actualizable ? '✅' : '❌';
+      const fecha = new Date(p.fecha_verif).toLocaleDateString('es-PE');
+
       html += `
         <div class="tarjeta">
-          <div>
-            <div class="tienda">${item.tienda}</div>
-            <div>${item.producto}</div>
-            <small>Actualizado: ${fecha}</small>
+          <h3>${p.nombre} ${badgeVerif}</h3>
+          <span class="rubro">${p.rubro}</span>
+          <p class="descripcion">${p.descripcion}</p>
+          
+          <div class="info">
+            <div class="info-item"><strong>Cobertura:</strong> ${p.cobertura}</div>
+            <div class="info-item"><strong>White label:</strong> ${badgeWL}</div>
+            <div class="info-item"><strong>API/Excel:</strong> ${badgeAPI}</div>
+            <div class="info-item"><strong>Tiempo:</strong> ${p.tiempo_envio}</div>
+            <div class="info-item"><strong>Margen:</strong> ${p.margen_estimado}</div>
+            <div class="info-item"><strong>Verif.:</strong> ${fecha}</div>
           </div>
-          <div>
-            <div class="precio">S/ ${item.precio.toFixed(2)}</div>
-            <a href="${item.url}" target="_blank" class="enlace-btn">Ver en tienda</a>
-          </div>
+          
+          <a href="${p.web}" target="_blank" class="btn">🌐 Visitar sitio</a>
+          <a href="mailto:${p.contacto}" class="btn" style="background:#1976d2;margin-left:0.5rem">✉️ Contactar</a>
         </div>
       `;
     });
 
     resultadosDiv.innerHTML = html;
-  }
-
-  // Función para normalizar texto (eliminar acentos y minúsculas)
-  function normalize(str) {
-    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
   }
 });
