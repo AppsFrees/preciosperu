@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "producto": "Arroz Costeño 5kg",
+    "tienda": "Wong",
+    "precio": 14.9,
+    "url": "https://www.wong.pe/arroz-costeno-5kg",
+    "fecha": "2025-12-18"
+  },
+  {
+    "id": 2,
+    "producto": "Arroz Costeño 5kg",
+    "tienda": "PlazaVea",
+    "precio": 13.5,
+    "url": "https://www.plazavea.com.pe/arroz-costeno-5kg",
+    "fecha": "2025-12-18"
+  },
+  {
+    "id": 3,
+    "producto": "Arroz Costeño 5kg",
+    "tienda": "Tottus",
+    "precio": 13.9,
+    "url": "https://www.tottus.com.pe/arroz-costeno",
+    "fecha": "2025-12-18"
+  },
+  {
+    "id": 4,
+    "producto": "Pasta Dental Colgate 140g",
+    "tienda": "Wong",
+    "precio": 7.49,
+    "url": "https://www.wong.pe/colgate-140g",
+    "fecha": "2025-12-18"
+  },
+  {
+    "id": 5,
+    "producto": "Pasta Dental Colgate 140g",
+    "tienda": "Ripley",
+    "precio": 6.9,
+    "url": "https://www.ripley.com.pe/colgate",
+    "fecha": "2025-12-18"
+  }
+]
